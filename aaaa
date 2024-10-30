@@ -1,27 +1,19 @@
- public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exercicios, container, false);
+@Override
+public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
 
-        // Obtém os CardViews pelo ID
-        CardView cardView1 = view.findViewById(R.id.Primeiro1);
-        CardView cardView2 = view.findViewById(R.id.Segundo2);
-        CardView cardView3 = view.findViewById(R.id.Terceiro3);
-        CardView cardView4 = view.findViewById(R.id.Quarto4);
+    CardView cardView = view.findViewById(R.id.seu_cardview_id);
+    cardView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Iniciar a transição para o novo fragment
+            Fragment novoFragment = new NovoFragment();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
 
-        // Configura o clique de cada CardView
-        setupCardViewClick(cardView1, new TTSegundaFeiraFragment());
-        setupCardViewClick(cardView2, new TTQuartaFeiraFragment());
-        setupCardViewClick(cardView3, new TTSextaFeiraFragment());
-        setupCardViewClick(cardView4, new TTSabadoFragment());
-
-        return view;
-    }
-
-    private void setupCardViewClick(CardView cardView, Fragment destinationFragment) {
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Substitui o fragmento atual pelo destino
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.addToBackStack(null); // Para permitir voltar ao fragmento anterior
-                transaction.commit();
-            }
+            // Substituir o fragment atual pelo novo
+            transaction.replace(R.id.container_fragment, novoFragment);
+            transaction.addToBackStack(null); // Adiciona à pilha de navegação para voltar depois
+            transaction.commit();
+        }
+    });
+}
