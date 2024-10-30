@@ -1,19 +1,23 @@
-@Override
-public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+public class PrincipalFragment extends Fragment {
+    View minhaView;
 
-    CardView cardView = view.findViewById(R.id.seu_cardview_id);
-    cardView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Iniciar a transição para o novo fragment
-            Fragment novoFragment = new NovoFragment();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        minhaView = inflater.inflate(R.layout.fragment_principal, container, false);
+        getActivity().setTitle("Principal");
+        CardView cvSobre = minhaView.findViewById(R.id.cvSobre);
+        // onClickListener para quando selecionar um CardView
+        cvSobre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Lógica para abrir seu Fragment, ex.:
+                getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, new SobreFragment())
+                .commit();
+            }
+        });
+        return minhaView;
+    }
 
-            // Substituir o fragment atual pelo novo
-            transaction.replace(R.id.container_fragment, novoFragment);
-            transaction.addToBackStack(null); // Adiciona à pilha de navegação para voltar depois
-            transaction.commit();
-        }
-    });
 }
