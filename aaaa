@@ -1,71 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TTSegundaFeiraFragment">
+ public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_exercicios, container, false);
 
-    <!-- ScrollView para permitir a rolagem -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        // Obtém os CardViews pelo ID
+        CardView cardView1 = view.findViewById(R.id.Primeiro1);
+        CardView cardView2 = view.findViewById(R.id.Segundo2);
+        CardView cardView3 = view.findViewById(R.id.Terceiro3);
+        CardView cardView4 = view.findViewById(R.id.Quarto4);
 
-        <androidx.cardview.widget.CardView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/cardModeloDiaTreino"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checkable="true"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="20dp"
-            android:foreground="?android:attr/selectableItemBackground">
+        // Configura o clique de cada CardView
+        setupCardViewClick(cardView1, new TTSegundaFeiraFragment());
+        setupCardViewClick(cardView2, new TTQuartaFeiraFragment());
+        setupCardViewClick(cardView3, new TTSextaFeiraFragment());
+        setupCardViewClick(cardView4, new TTSabadoFragment());
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+        return view;
+    }
 
-                <!-- Título ou nome do exercício -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Nome do exercício"
-                    android:fontFamily="@font/saira"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:textSize="12sp"/>
-
-                <!-- CardView para a WebView -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="16dp">
-
-                    <WebView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:id="@+id/WebViewExecucao"/>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Descrição do exercício"
-                    android:textSize="14sp"
-                    android:id="@+id/DescExe"
-                    android:layout_marginTop="14dp"
-                    android:fontFamily="@font/saira"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </ScrollView>
-
-
-
-
-
-</FrameLayout>
+    private void setupCardViewClick(CardView cardView, Fragment destinationFragment) {
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Substitui o fragmento atual pelo destino
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.addToBackStack(null); // Para permitir voltar ao fragmento anterior
+                transaction.commit();
+            }
